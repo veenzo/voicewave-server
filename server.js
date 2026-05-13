@@ -1,6 +1,13 @@
 const { WebSocketServer } = require("ws");
-const PORT = process.env.PORT || 3001;
-const wss = new WebSocketServer({ port: PORT });
+const http = require("http");
+const server = http.createServer((req, res) => { res.writeHead(200); res.end("VoiceWave OK"); });
+const wss = new WebSocketServer({ server });
+server.listen(process.env.PORT || 8080, () => {
+  console.log("VoiceWave Server avviato su :" + (process.env.PORT || 8080));
+});
+
+
+
 
 // ─── DATABASE IN MEMORIA ───────────────────────────────────────────────────
 const users = new Map();        // userId -> { id, username, name, emoji, colorIdx, online, ws }
@@ -355,4 +362,4 @@ wss.on("connection", (ws) => {
   });
 });
 
-console.log(`VoiceWave Server avviato su :${PORT}`);
+
